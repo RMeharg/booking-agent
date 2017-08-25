@@ -1,0 +1,52 @@
+jobs:
+- name: example-pipeline
+  serial: true
+  plan:
+  - aggregate:
+    - get: booking-agent
+      trigger: true
+    - get: pipelines
+      trigger: true
+    - get: environments
+      trigger: true
+  - task: book-pipeline
+    config:
+      platform: linux
+      image: {{docker_image}}
+      inputs:
+        - name: booking-agent
+        - name: pipelines
+        - name: environments
+    params:
+      CONCOURSE_URL: {{concourse_url}}
+      CONCOURSE_TEAM: {{concourse_team}}
+      CONCOURSE_USERNAME: {{concourse_username}}
+      CONCOURSE_PASSWORD: {{concourse_password}}
+      PIPELINE_NAME: example-pipeline
+      PIPELINE_MANIFEST: pipelines/example-pipeline/manifest.yml
+      PIPELINE_VARS_STORE: environments/region/availablity-zone/example-pipeline/settings.yml
+    run:
+      path: booking-agent/scripts/book
+
+resources:
+- name: booking-agent
+  type: git
+  source:
+    branch: master
+    uri: {{booking_agent_uri}}
+    access_token: {{booking_agent_access_token}}
+
+- name: pipelines
+  type: git
+  source:
+    branch: master
+    uri: {{pipelines_uri}}
+    access_token: {{pipelines_access_token}}
+
+- name: environments
+  type: git
+  source:
+    branch: master
+    uri: {{environments_uri}}
+    access_token: {{environments_access_token}}
+

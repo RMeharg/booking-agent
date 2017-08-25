@@ -1,0 +1,17 @@
+#!/bin/bash
+set -eu
+
+echo
+echo "Getting latest concourse version..."
+set +e
+fly -t concourse login --concourse-url=$CONCOURSE_URL --team-name=$CONCOURSE_TEAM --username=$CONCOURSE_USERNAME --password=$CONCOURSE_PASSWORD --insecure # Required to set initial target
+set -e
+fly -t concourse sync
+
+echo
+echo "Logging into Concourse..."
+fly -t concourse login --concourse-url=$CONCOURSE_URL --team-name=$CONCOURSE_TEAM --username=$CONCOURSE_USERNAME --password=$CONCOURSE_PASSWORD --insecure
+
+echo
+echo "Booking your pipeline..."
+yes | fly -t concourse set-pipeline -p $PIPELINE_NAME -c $PIPELINE_MANIFEST -l $PIPELINE_VARS_STORE

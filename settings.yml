@@ -1,0 +1,15 @@
+docker_image: ubuntu#latest
+
+concourse_url: http://concourse.example.com
+concourse_team: main
+concourse_username:
+concourse_password:
+
+booking_agent_uri: https://github.com/RMeharg/booking-agent
+booking_agent_access_token: # If this is a public repository, still use an access token to avoid rate limits
+
+pipelines_uri: https://gitlab.com/ORG/REPO
+pipelines_access_token:
+
+environments_uri: https://gitlab.com/ORG/REPO
+environments_access_token:
