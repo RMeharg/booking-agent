@@ -14,4 +14,8 @@ fly -t concourse login --concourse-url=$CONCOURSE_URL --team-name=$CONCOURSE_TEA
 
 echo
 echo "Booking your pipeline..."
-yes | fly -t concourse set-pipeline -p $PIPELINE_NAME -c $PIPELINE_MANIFEST -l $PIPELINE_VARS_STORE
+yes | fly -t concourse sp -p $PIPELINE_NAME -c $PIPELINE_MANIFEST -l $PIPELINE_VARS_STORE
+
+echo
+echo "Exposing pipeline status..."
+fly -t concourse ep -p $PIPELINE_NAME
