@@ -19,3 +19,7 @@ fly -t concourse sp -n -p $PIPELINE_NAME -c $PIPELINE_MANIFEST -l $PIPELINE_VARS
 echo
 echo "Exposing pipeline status..."
 fly -t concourse ep -p $PIPELINE_NAME
+
+echo
+echo "Unpausing pipeline..."
+fly -t concourse up -p $PIPELINE_NAME
